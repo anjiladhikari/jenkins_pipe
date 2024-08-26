@@ -66,7 +66,8 @@ pipeline {
                         to: "${env.RECIPIENT_EMAIL}",
                         subject: "Jenkins Pipeline: Successful Build",
                         body: "The build was successful.",
-                        attachLog: true
+                        attachLog: true,
+                         compressLog: true
                     )
                 } else {
                     emailext (
