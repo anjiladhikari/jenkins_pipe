@@ -62,20 +62,18 @@ pipeline {
             script {
                 def status = currentBuild.result ?: 'SUCCESS'
                 if (status == 'SUCCESS') {
-                    emailext (
-                        to: "${env.RECIPIENT_EMAIL}",
+                    
+                       mail to: "${env.RECIPIENT_EMAIL}",
                         subject: "Jenkins Pipeline: Successful Build",
-                        body: "The build was successful.",
-                        attachLog: true,
-                         compressLog: true
-                    )
+                        body: "The build was successful."
+                        
+                    
                 } else {
-                    emailext (
-                        to: "${env.RECIPIENT_EMAIL}",
+                        mail to: "${env.RECIPIENT_EMAIL}",
                         subject: "Jenkins Pipeline: Build Failed",
                         body: "The build failed.",
-                        attachLog: true
-                    )
+                       
+                    
                 }
             }
         }
