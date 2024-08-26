@@ -52,7 +52,7 @@ pipeline {
         stage('Deploy to Production') {
             steps {
                 echo 'Deploying to production environment on AWS EC2...'
-                // Tool: AWS CLI same is staging
+                // Tool: AWS CLI same as staging
             }
         }
     }
@@ -61,21 +61,13 @@ pipeline {
         always {
             script {
                 def status = currentBuild.result ?: 'SUCCESS'
-                if (status == 'SUCCESS') {
-                    
-                       mail to: "${env.RECIPIENT_EMAIL}",
-                        subject: "Jenkins Pipeline: Successful Build",
-                        body: "The build was successful."
-                        
-                    
-                } else {
-                        mail to: "${env.RECIPIENT_EMAIL}",
-                        subject: "Jenkins Pipeline: Build Failed",
-                        body: "The build failed.",
-                       
-                    
-                }
+                emailext (
+                    to: "${env.RECIPIENT_EMAIL}",
+                    subject: "Jenkins Pipeline: ${status} Build",
+                    body: "The build ${status.toLowerCase()}.",
+                    attachLog: true
+                )
             }
         }
     }
-
+}
