@@ -60,13 +60,15 @@ pipeline {
     post {
         always {
             script {
-                def status = currentBuild.result ?: 'SUCCESS'
+                echo "Sending email notification..."
+                def status = currentBuild.currentResult ?: 'SUCCESS'
                 emailext (
                     to: "${env.RECIPIENT_EMAIL}",
                     subject: "Jenkins Pipeline: ${status} Build",
-                    body: "The build ${status.toLowerCase()}.",
+                    body: "The build ${status.toLowerCase()}. Check console output at ${env.BUILD_URL} for details.",
                     attachLog: true
                 )
+                echo "Email notification step completed."
             }
         }
     }
